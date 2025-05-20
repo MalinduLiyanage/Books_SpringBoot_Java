@@ -11,4 +11,4 @@ A scenario where books are stored in a shop and users need to get a list of book
 
 # The server will run on
 
-<script>http://localhost:3000/</script>
+http://localhost:3000/
