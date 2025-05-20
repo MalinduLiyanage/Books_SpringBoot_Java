@@ -1,4 +1,4 @@
-package com.malinduliyanage.books.dtos;
+package com.malinduliyanage.books.dtos.responses;
 
 import com.malinduliyanage.books.constants.CommonResponse;
 import lombok.Getter;
