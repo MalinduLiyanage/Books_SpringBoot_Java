@@ -2,6 +2,7 @@ package com.malinduliyanage.books.controllers;
 
 import com.malinduliyanage.books.constants.BooksResponses;
 import com.malinduliyanage.books.dtos.requests.AddBookRequest;
+import com.malinduliyanage.books.dtos.requests.UpdateBookRequest;
 import com.malinduliyanage.books.dtos.responses.BaseResponse;
 import com.malinduliyanage.books.dtos.responses.books.ListBooksResponse;
 import com.malinduliyanage.books.services.BooksService;
@@ -36,7 +37,12 @@ public class BooksController {
     }
 
     @PostMapping("/add")
-    public BaseResponse<BooksResponses> addBook(@RequestBody AddBookRequest request){
+    public BaseResponse<String> addBook(@RequestBody AddBookRequest request){
         return booksService.addBook(request);
+    }
+
+    @PostMapping("/update/{id}")
+    public BaseResponse<String> updateBook(@PathVariable("id") int id,@RequestBody UpdateBookRequest request){
+        return booksService.updateBook(id, request);
     }
 }

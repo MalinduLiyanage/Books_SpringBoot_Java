@@ -4,6 +4,7 @@ import com.malinduliyanage.books.constants.BooksResponses;
 import com.malinduliyanage.books.constants.CommonResponse;
 import com.malinduliyanage.books.dtos.books.BooksDTO;
 import com.malinduliyanage.books.dtos.requests.AddBookRequest;
+import com.malinduliyanage.books.dtos.requests.UpdateBookRequest;
 import com.malinduliyanage.books.dtos.responses.BaseResponse;
 import com.malinduliyanage.books.dtos.responses.books.ListBooksResponse;
 import com.malinduliyanage.books.entities.BookEntity;
@@ -33,7 +34,7 @@ public class BooksService {
                     .stream().map(BooksDTO::new).toList();
 
             if (books.isEmpty()) {
-                return new BaseResponse<>(HttpStatus.NO_CONTENT, CommonResponse.RECORD_NOT_FOUND.getValue());
+                return new BaseResponse<>(HttpStatus.UNPROCESSABLE_ENTITY, CommonResponse.RECORD_NOT_FOUND.getValue());
             }
 
             return new BaseResponse<ListBooksResponse>(HttpStatus.OK, new ListBooksResponse(books));
@@ -44,12 +45,12 @@ public class BooksService {
         }
     }
 
-    public BaseResponse<BooksResponses> addBook(AddBookRequest request){
+    public BaseResponse<String> addBook(AddBookRequest request){
         try {
             BookEntity existingBook = bookRepository.findByBookName(request.getBookName());
 
             if (existingBook != null) {
-                return new BaseResponse<>(HttpStatus.CREATED, BooksResponses.BOOK_EXIST.getValue());
+                return new BaseResponse<>(HttpStatus.OK, BooksResponses.BOOK_EXIST.getValue());
             }
 
             BookEntity newBook = new BookEntity();
@@ -59,7 +60,28 @@ public class BooksService {
 
             bookRepository.save(newBook);
 
-            return new BaseResponse<>(HttpStatus.CREATED, BooksResponses.BOOK_CREATED.getValue());
+            return new BaseResponse<>(HttpStatus.OK, BooksResponses.BOOK_CREATED.getValue());
+
+        } catch (Exception e) {
+            this.logger.error(e.getMessage());
+            return new BaseResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, CommonResponse.INTERNAL_SERVER_ERROR.getValue());
+        }
+    }
+
+    public BaseResponse<String> updateBook(int id, UpdateBookRequest request){
+        try {
+            BookEntity existingBook = bookRepository.findById(id);
+
+            if (existingBook != null) {
+                existingBook.setBookName(request.getBookName());
+                existingBook.setAuthorName(request.getAuthorName());
+                existingBook.setDescription(request.getDescription());
+
+                bookRepository.save(existingBook);
+                return new BaseResponse<>(HttpStatus.OK, BooksResponses.BOOK_UPDATED.getValue());
+            }
+
+            return new BaseResponse<>(HttpStatus.UNPROCESSABLE_ENTITY, BooksResponses.BOOK_NO_EXIST.getValue());
 
         } catch (Exception e) {
             this.logger.error(e.getMessage());
