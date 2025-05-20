@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @Getter
 // @Entity marks this class as a JPA entity (i.e., it maps to a DB table)
 @Entity
-@Table(name = "story")
+@Table(name = "book")
 public class BookEntity {
 
     //@Id → Marks this field as the primary key
