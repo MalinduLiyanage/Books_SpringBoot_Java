@@ -1,12 +1,11 @@
 package com.malinduliyanage.books.controllers;
 
+import com.malinduliyanage.books.constants.BooksResponses;
+import com.malinduliyanage.books.dtos.requests.AddBookRequest;
 import com.malinduliyanage.books.dtos.responses.BaseResponse;
 import com.malinduliyanage.books.dtos.responses.books.ListBooksResponse;
 import com.malinduliyanage.books.services.BooksService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 //We use @RestController to create RESTful web services.
 //Automatically adds @ResponseBody to all methods, meaning the returned data (like JSON) is sent directly in the HTTP response body, not as a view name.
@@ -34,5 +33,10 @@ public class BooksController {
     @PostMapping("/list")
     public BaseResponse<ListBooksResponse> getBooks(){
         return booksService.listBooks();
+    }
+
+    @PostMapping("/add")
+    public BaseResponse<BooksResponses> addBook(@RequestBody AddBookRequest request){
+        return booksService.addBook(request);
     }
 }
