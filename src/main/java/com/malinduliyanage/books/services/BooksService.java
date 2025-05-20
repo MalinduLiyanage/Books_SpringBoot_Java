@@ -30,6 +30,10 @@ public class BooksService {
             List<BooksDTO> books = bookRepository.findAll()
                     .stream().map(BooksDTO::new).toList();
 
+            if (books.isEmpty()) {
+                return new BaseResponse<>(HttpStatus.NO_CONTENT, CommonResponse.RECORD_NOT_FOUND);
+            }
+
             return new BaseResponse<>(HttpStatus.OK, new ListBooksResponse(books));
         }
         catch(Exception e){
