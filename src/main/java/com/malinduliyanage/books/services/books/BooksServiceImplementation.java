@@ -10,7 +10,9 @@ import com.malinduliyanage.books.dtos.responses.books.ListBooksResponse;
 import com.malinduliyanage.books.entities.BookEntity;
 import com.malinduliyanage.books.repositories.BookRepository;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -24,10 +26,15 @@ import java.util.List;
 public class BooksServiceImplementation implements BooksService{
 
     private final BookRepository bookRepository;
+    private final WebClient webClient;
     private final Logger logger = LoggerFactory.getLogger(BooksServiceImplementation.class);
 
-    public BooksServiceImplementation(BookRepository bookRepository) {
+    @Value("${urls.quotes_api}")
+    private String jokeApi;
+
+    public BooksServiceImplementation(BookRepository bookRepository, WebClient webClient) {
         this.bookRepository = bookRepository;
+        this.webClient = webClient;
     }
 
     public BaseResponse<ListBooksResponse> listBooks(){
@@ -85,6 +92,23 @@ public class BooksServiceImplementation implements BooksService{
             }
 
             return new BaseResponse<>(HttpStatus.UNPROCESSABLE_ENTITY, BooksResponses.BOOK_NO_EXIST.getValue());
+
+        } catch (Exception e) {
+            this.logger.error(e.getMessage());
+            return new BaseResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, CommonResponse.INTERNAL_SERVER_ERROR.getValue());
+        }
+    }
+
+    public BaseResponse<String> quoteOfTheDay() {
+        try {
+            String quote = webClient
+                    .get()
+                    .uri(jokeApi)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+            return new BaseResponse<>(HttpStatus.OK, quote);
 
         } catch (Exception e) {
             this.logger.error(e.getMessage());

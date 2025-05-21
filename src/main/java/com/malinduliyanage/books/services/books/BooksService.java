@@ -10,4 +10,5 @@ public interface BooksService {
     BaseResponse<ListBooksResponse> listBooks();
     BaseResponse<String> addBook(AddBookRequest request);
     BaseResponse<String> updateBook(int id, UpdateBookRequest request);
+    BaseResponse<String> quoteOfTheDay();
 }

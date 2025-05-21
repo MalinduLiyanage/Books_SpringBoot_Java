@@ -36,4 +36,9 @@ public class BooksController {
     public BaseResponse<String> updateBook(@PathVariable("id") int id,@RequestBody UpdateBookRequest request){
         return booksService.updateBook(id, request);
     }
+
+    @PostMapping("/quote")
+    public BaseResponse<String> quoteOfTheDay(){
+        return booksService.quoteOfTheDay();
+    }
 }
