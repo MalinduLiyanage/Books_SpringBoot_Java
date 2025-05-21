@@ -1,7 +1,7 @@
 package com.malinduliyanage.books.services.books;
 
-import com.malinduliyanage.books.dtos.requests.AddBookRequest;
-import com.malinduliyanage.books.dtos.requests.UpdateBookRequest;
+import com.malinduliyanage.books.dtos.requests.books.AddBookRequest;
+import com.malinduliyanage.books.dtos.requests.books.UpdateBookRequest;
 import com.malinduliyanage.books.dtos.responses.BaseResponse;
 import com.malinduliyanage.books.dtos.responses.books.ListBooksResponse;
 

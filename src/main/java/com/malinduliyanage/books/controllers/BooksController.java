@@ -1,11 +1,10 @@
 package com.malinduliyanage.books.controllers;
 
-import com.malinduliyanage.books.dtos.requests.AddBookRequest;
-import com.malinduliyanage.books.dtos.requests.UpdateBookRequest;
+import com.malinduliyanage.books.dtos.requests.books.AddBookRequest;
+import com.malinduliyanage.books.dtos.requests.books.UpdateBookRequest;
 import com.malinduliyanage.books.dtos.responses.BaseResponse;
 import com.malinduliyanage.books.dtos.responses.books.ListBooksResponse;
 import com.malinduliyanage.books.services.books.BooksService;
-import com.malinduliyanage.books.services.books.BooksServiceImplementation;
 import org.springframework.web.bind.annotation.*;
 
 //We use @RestController to create RESTful web services.
