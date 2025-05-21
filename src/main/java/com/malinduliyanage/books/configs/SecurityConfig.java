@@ -1,5 +1,6 @@
 package com.malinduliyanage.books.configs;
 
+import com.malinduliyanage.books.helpers.jwt.JwtAuthFilter;
 import com.malinduliyanage.books.services.users.UserDetailsServiceImplementation;
 import com.malinduliyanage.books.services.users.UserServiceImplementation;
 import org.springframework.context.annotation.Bean;
@@ -14,15 +15,18 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final UserDetailsServiceImplementation userDetailsServiceImplementation;
+    private final JwtAuthFilter jwtAuthFilter;
 
-    public SecurityConfig(UserDetailsServiceImplementation userDetailsServiceImplementation) {
+    public SecurityConfig(UserDetailsServiceImplementation userDetailsServiceImplementation, JwtAuthFilter jwtAuthFilter) {
         this.userDetailsServiceImplementation = userDetailsServiceImplementation;
+        this.jwtAuthFilter = jwtAuthFilter;
     }
 
     @Bean
@@ -39,11 +43,11 @@ public class SecurityConfig {
 //        Set permissions on endpoints
                 .authorizeHttpRequests(auth -> auth
 //            our public endpoints
-                        .requestMatchers(HttpMethod.POST, "/api/users/signup/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/users/login/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
 //            our private endpoints
                         .anyRequest().authenticated())
                 .authenticationManager(authenticationManager)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
