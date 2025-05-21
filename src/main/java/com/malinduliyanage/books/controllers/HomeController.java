@@ -10,13 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HomeController {
 
-    //Reads metadata from application.yaml
-    @Value("${spring.application.name}")
-    private String successMsg;
-
     public String index () {
-
-        System.out.println(successMsg);
         return "index.html";
     }
 }
