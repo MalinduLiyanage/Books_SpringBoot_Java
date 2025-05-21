@@ -1,11 +1,10 @@
 package com.malinduliyanage.books.controllers;
 
-import com.malinduliyanage.books.constants.BooksResponses;
 import com.malinduliyanage.books.dtos.requests.AddBookRequest;
 import com.malinduliyanage.books.dtos.requests.UpdateBookRequest;
 import com.malinduliyanage.books.dtos.responses.BaseResponse;
 import com.malinduliyanage.books.dtos.responses.books.ListBooksResponse;
-import com.malinduliyanage.books.services.BooksService;
+import com.malinduliyanage.books.services.books.BooksServiceImplementation;
 import org.springframework.web.bind.annotation.*;
 
 //We use @RestController to create RESTful web services.
@@ -15,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/books")
 public class BooksController {
 
-    private final BooksService booksService;
+    private final BooksServiceImplementation booksServiceImplementation;
 
-    public BooksController(BooksService booksService) {
-        this.booksService = booksService;
+    public BooksController(BooksServiceImplementation booksServiceImplementation) {
+        this.booksServiceImplementation = booksServiceImplementation;
     }
 
     //We can map to a specific path, or leave it empty
@@ -33,16 +32,16 @@ public class BooksController {
 
     @PostMapping("/list")
     public BaseResponse<ListBooksResponse> getBooks(){
-        return booksService.listBooks();
+        return booksServiceImplementation.listBooks();
     }
 
     @PostMapping("/add")
     public BaseResponse<String> addBook(@RequestBody AddBookRequest request){
-        return booksService.addBook(request);
+        return booksServiceImplementation.addBook(request);
     }
 
     @PostMapping("/update/{id}")
     public BaseResponse<String> updateBook(@PathVariable("id") int id,@RequestBody UpdateBookRequest request){
-        return booksService.updateBook(id, request);
+        return booksServiceImplementation.updateBook(id, request);
     }
 }

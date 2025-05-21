@@ -1,4 +1,4 @@
-package com.malinduliyanage.books.services;
+package com.malinduliyanage.books.services.books;
 
 import com.malinduliyanage.books.constants.BooksResponses;
 import com.malinduliyanage.books.constants.CommonResponse;
@@ -17,13 +17,16 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+//A Bean is just an object managed by Spring Container
+//@Service is a type of configuring Beans. Also, @Component is possible
+//These are automatically managed by Spring, therefore, no need to mention this in main Application.java
 @Service
-public class BooksService {
+public class BooksServiceImplementation implements BooksService{
 
     private final BookRepository bookRepository;
-    private final Logger logger = LoggerFactory.getLogger(BooksService.class);
+    private final Logger logger = LoggerFactory.getLogger(BooksServiceImplementation.class);
 
-    public BooksService (BookRepository bookRepository) {
+    public BooksServiceImplementation(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
