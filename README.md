@@ -7,6 +7,8 @@ A scenario where books are stored in a shop and users need to get a list of book
 <ul>
   <li>DTOs and Service Layers implemented</li>
   <li>JPA _ Hibernate with MySQL</li>
+  <li>Custom Bean example</li>
+  <li>JWT using SpringBoot's filters</li>
 </ul>
 
 # The server will run on
